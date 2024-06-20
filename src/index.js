@@ -1,8 +1,7 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import App from './App';
+import "./index.css"
+import Form from './components/form.jsx'
 
-const domNode = document.getElementById('root');
-const root = createRoot(domNode);
-
-root.render(<App />);
+ReactDOM.render(<Form />, document.getElementById('root'));
