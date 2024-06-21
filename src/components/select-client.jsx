@@ -1,10 +1,11 @@
 import React, { Component, useState } from "react";
 import AddNewClientModal from "./add-new-client";
+import mainData from "./main-data";
 
 class SelectClient extends Component {
   state = {
     showModal: false,
-    clientOptions: ["Option 1", "Option 2", "Option 3"],
+    clientOptions: mainData.clients.map((client) => client.fullName),
   };
 
   handleOptionChange = (event) => {

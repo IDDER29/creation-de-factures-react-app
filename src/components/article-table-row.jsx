@@ -2,18 +2,20 @@ import React, { Component } from "react";
 
 class ArticleTableRow extends Component {
   state = {
-    articles: [
-      { id: 1, name: "Article 1", price: 10, discount: 0.1 },
-      { id: 2, name: "Article 2", price: 20, discount: 0.15 },
-      { id: 3, name: "Article 3", price: 30, discount: 0.2 },
-    ],
+    articles: this.props.products.map((product) => ({
+      id: product.id,
+      name: product.name,
+      unitPrice: product.unitPrice,
+      quantity: product.quantity,
+      discount: product.discounts,
+    })),
     selectedArticle: null,
     quantity: 1,
   };
 
   handleArticleChange = (event) => {
     const articleId = parseInt(event.target.value, 10);
-    const article = this.state.articles.find((item) => item.id === articleId);
+    const article = this.state.articles.find((item) => item.id == articleId);
     this.setState({ selectedArticle: article });
   };
 
@@ -56,7 +58,7 @@ class ArticleTableRow extends Component {
           />
         </div>
         <div>
-          {selectedArticle ? `${selectedArticle.price.toFixed(2)}` : "N/A"}
+          {selectedArticle ? `${selectedArticle.unitPrice.toFixed(2)}` : "N/A"}
         </div>
         <div>
           {selectedArticle

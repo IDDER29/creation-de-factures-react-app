@@ -1,31 +1,10 @@
 import React, { Component } from "react";
 import DetailsTable from "./details-table";
+import mainData from "./main-data";
+
 class TableOfData extends Component {
   state = {
-    invoices: [
-      {
-        id: 1,
-        clientName: "John Doe",
-        amountHT: 100,
-        VAT: 20,
-        amountTTC: 120,
-        details: [
-          { description: "Item 1", quantity: 2, price: 50 },
-          { description: "Item 2", quantity: 1, price: 60 },
-        ],
-      },
-      {
-        id: 2,
-        clientName: "Jane Smith",
-        amountHT: 50,
-        VAT: 10,
-        amountTTC: 60,
-        details: [
-          { description: "Item 3", quantity: 1, price: 10 },
-          { description: "Item 4", quantity: 2, price: 20 },
-        ],
-      },
-    ],
+    invoices: mainData.invoices.map((invoice) => invoice),
   };
 
   showDetails = (index) => {
@@ -52,12 +31,14 @@ class TableOfData extends Component {
             <tr key={invoice.id}>
               <td>{invoice.id}</td>
               <td>{invoice.clientName}</td>
-              <td>{invoice.amountHT}</td>
-              <td>{invoice.VAT}</td>
-              <td>{invoice.amountTTC}</td>
+              <td>{invoice.totalHT}</td>
+              <td>{invoice.TVA}</td>
+              <td>{invoice.totalTTC}</td>
               <td>
                 <button onClick={() => this.showDetails(index)}>Show</button>
-                {selectedIndex === index && <DetailsTable invoice={invoice} />}
+                {selectedIndex === index && (
+                  <DetailsTable invoiceDetails={invoice.details} />
+                )}
               </td>
             </tr>
           ))}

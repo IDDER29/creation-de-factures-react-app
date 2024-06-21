@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import ArticleTableRow from "./article-table-row";
+import mainData from "./main-data";
 
 class AddArticle extends Component {
   state = {
     articles: [],
+    products: mainData.products,
     totalPrice: 0,
   };
 
@@ -41,7 +43,7 @@ class AddArticle extends Component {
   };
 
   render() {
-    const { articles, totalPrice } = this.state;
+    const { articles, products, totalPrice } = this.state;
     return (
       <div className="container">
         <button onClick={this.handleAddArticle}>+ Add Article</button>
@@ -56,7 +58,7 @@ class AddArticle extends Component {
         {articles.map((article) => (
           <ArticleTableRow
             key={article.id}
-            article={article}
+            products={products}
             onDelete={() => this.handleDeleteArticle(article.id)}
           />
         ))}

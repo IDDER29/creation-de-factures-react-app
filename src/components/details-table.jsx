@@ -1,14 +1,16 @@
 import React, { Component } from "react";
-class DetailsTable extends Component {
-  render() {
-    const { invoice } = this.props;
 
-    const totalHT = invoice.details.reduce(
+class DetailsTable extends Component {
+  invoiceDetails = this.props.invoiceDetails;
+  totalHT = this.invoiceDetails
+    .reduce(
       (sum, detail) =>
         sum + detail.quantity * (detail.price * (1 - detail.discount)),
       0
-    );
+    )
+    .toFixed(2);
 
+  render() {
     return (
       <div>
         <table>
@@ -23,9 +25,9 @@ class DetailsTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {invoice.details.map((detail) => (
+            {this.invoiceDetails.map((detail) => (
               <tr key={detail.description}>
-                <td>{detail.description}</td>
+                <td>{detail.productName}</td>
                 <td>{detail.quantity}</td>
                 <td>{detail.price}</td>
                 <td>{detail.discount * 100}%</td>
@@ -47,7 +49,7 @@ class DetailsTable extends Component {
             ))}
           </tbody>
         </table>
-        <p>Total H.T.: {totalHT.toFixed(2)}</p>
+        <p>Total H.T.: {this.totalHT}</p>
       </div>
     );
   }
