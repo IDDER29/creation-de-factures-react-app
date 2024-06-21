@@ -2,46 +2,79 @@ import React, { Component } from "react";
 
 class ArticleTableRow extends Component {
   state = {
-    articles: this.props.products.map((product) => ({
+    products: this.props.products.map((product) => ({
       id: product.id,
       name: product.name,
       unitPrice: product.unitPrice,
       quantity: product.quantity,
-      discount: product.discounts,
+      discounts: product.discounts,
     })),
-    selectedArticle: null,
+    selectedProduct: null,
     quantity: 1,
   };
 
   handleArticleChange = (event) => {
     const articleId = parseInt(event.target.value, 10);
-    const article = this.state.articles.find((item) => item.id == articleId);
-    this.setState({ selectedArticle: article });
-  };
-
-  handleQuantityChange = (event) => {
-    this.setState({
-      quantity: parseInt(event.target.value, 10),
+    const article = this.state.products.find((item) => item.id == articleId);
+    this.setState({ selectedProduct: article });
+    this.props.selectedProducts.push({
+      id: article.id,
+      name: article.name,
+      unitPrice: article.unitPrice,
+      quantity: this.state.quantity,
     });
   };
 
+  handleQuantityChange = (event) => {
+    const quantity = parseInt(event.target.value, 10);
+    this.setState({ quantity });
+    this.props.selectedProducts.forEach((item) => {
+      if (item.id === this.state.selectedProduct.id) {
+        item.quantity = quantity;
+      }
+    });
+  };
   calculateTotal = () => {
-    const { selectedArticle, quantity } = this.state;
-    if (!selectedArticle) return 0;
-    const { price, discount } = selectedArticle;
+    const { selectedProduct, quantity } = this.state;
+    if (!selectedProduct) return 0;
+    const { unitPrice } = selectedProduct;
+    const discount = this.getDescount();
+    const price = unitPrice;
     const discountedPrice = price - price * discount;
     return discountedPrice * quantity;
   };
+  getDescount = () => {
+    const { selectedProduct, quantity } = this.state;
+    if (!selectedProduct) return 0;
+    const { discounts } = selectedProduct;
+    const discount = discounts.find((discount) => {
+      if (discount.maxQuantity) {
+        return (
+          discount.minQuantity <= quantity && discount.maxQuantity >= quantity
+        );
+      } else {
+        return true;
+      }
+    });
+
+    this.props.selectedProducts.forEach((item) => {
+      if (item.id === this.state.selectedProduct.id) {
+        item.discount = discount.discount;
+      }
+    });
+
+    return discount.discount;
+  };
 
   render() {
-    const { articles, selectedArticle, quantity } = this.state;
+    const { products, selectedProduct, quantity } = this.state;
 
     return (
       <div className="table-row">
         <div>
           <select className="select" onChange={this.handleArticleChange}>
             <option value="">Select an article</option>
-            {articles.map((article) => (
+            {products.map((article) => (
               <option key={article.id} value={article.id}>
                 {article.name}
               </option>
@@ -58,15 +91,15 @@ class ArticleTableRow extends Component {
           />
         </div>
         <div>
-          {selectedArticle ? `${selectedArticle.unitPrice.toFixed(2)}` : "N/A"}
+          {selectedProduct ? `${selectedProduct.unitPrice.toFixed(2)}` : "N/A"}
         </div>
         <div>
-          {selectedArticle
-            ? `${(selectedArticle.discount * 100).toFixed(0)}%`
+          {selectedProduct
+            ? `${(this.getDescount() * 100).toFixed(0)}%`
             : "N/A"}
         </div>
         <div>
-          {selectedArticle ? `${this.calculateTotal().toFixed(2)}` : "N/A"}
+          {selectedProduct ? `${this.calculateTotal().toFixed(2)}` : "N/A"}
         </div>
       </div>
     );

@@ -5,10 +5,13 @@ import mainData from "./main-data";
 class AddArticle extends Component {
   state = {
     articles: [],
-    products: mainData.products,
+    products: this.props.products,
+    selectedProducts: this.props.selectedProducts,
     totalPrice: 0,
   };
-
+  handleProductChange = () => {
+    this.props.onSelectProduct(this.state.selectedProducts);
+  };
   handleAddArticle = () => {
     const newArticle = {
       id: this.state.articles.length + 1,
@@ -20,6 +23,7 @@ class AddArticle extends Component {
       }),
       this.updatedTotalPrice
     );
+    this.handleProductChange();
   };
 
   handleDeleteArticle = (id) => {
@@ -43,7 +47,7 @@ class AddArticle extends Component {
   };
 
   render() {
-    const { articles, products, totalPrice } = this.state;
+    const { articles, products, selectedProducts, totalPrice } = this.state;
     return (
       <div className="container">
         <button onClick={this.handleAddArticle}>+ Add Article</button>
@@ -58,6 +62,7 @@ class AddArticle extends Component {
         {articles.map((article) => (
           <ArticleTableRow
             key={article.id}
+            selectedProducts={selectedProducts}
             products={products}
             onDelete={() => this.handleDeleteArticle(article.id)}
           />
@@ -75,6 +80,7 @@ class AddArticle extends Component {
               this.setState(
                 (prevState) => ({
                   articles: prevState.articles.slice(0, -1),
+                  selectedProducts: prevState.selectedProducts.slice(0, -1),
                 }),
                 this.updatedTotalPrice
               );
@@ -83,6 +89,15 @@ class AddArticle extends Component {
         >
           Delete last article
         </button>
+        /////////////////
+        <button
+          onClick={() => {
+            console.log(this.state.selectedProducts);
+          }}
+        >
+          show the selected articles
+        </button>
+        //////////////
       </div>
     );
   }

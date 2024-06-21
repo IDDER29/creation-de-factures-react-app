@@ -4,11 +4,19 @@ import InputDate from "./date-input";
 import SelectClient from "./select-client";
 
 class Form extends Component {
-  state = {};
-
-  hundelSubmit(event) {
-    event.preventDefault();
+  constructor(props) {
+    super(props);
+    this.state = {
+      isDisabled: props.isDisabled,
+    };
   }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.isDisabled !== this.props.isDisabled) {
+      this.setState({ isDisabled: this.props.isDisabled });
+    }
+  }
+
   render() {
     return (
       <>
@@ -17,7 +25,9 @@ class Form extends Component {
             <InputId />
             <InputDate />
             <SelectClient />
-            <button type="submit">Add Facture</button>
+            <button type="submit" disabled={this.state.isDisabled}>
+              Add Facture
+            </button>
           </div>
         </form>
       </>
