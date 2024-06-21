@@ -31,16 +31,9 @@ class ArticleTableRow extends Component {
       };
 
       const updatedSelectedProducts = this.props.selectedProducts.map((item) =>
-        item.id === updatedProduct.id ? updatedProduct : item
+        item.id === this.props.productId ? updatedProduct : item
       );
-
-      if (
-        updatedSelectedProducts.every((item) => item.id !== updatedProduct.id)
-      ) {
-        updatedSelectedProducts.push(updatedProduct);
-      }
-
-      this.props.onSelectProduct(updatedSelectedProducts);
+      this.props.onSelectProductChange(updatedSelectedProducts);
     }
   };
 

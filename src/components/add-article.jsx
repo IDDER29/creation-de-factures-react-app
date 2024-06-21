@@ -3,7 +3,6 @@ import ArticleTableRow from "./article-table-row";
 
 class AddArticle extends Component {
   state = {
-    articles: [],
     products: this.props.products,
     selectedProducts: this.props.selectedProducts,
     totalPrice: 0,
@@ -15,52 +14,48 @@ class AddArticle extends Component {
   };
 
   handleAddArticle = () => {
+    const newArticleId = this.state.selectedProducts.length
+      ? this.state.selectedProducts[this.state.selectedProducts.length - 1].id +
+        1
+      : 1;
     const newArticle = {
-      id: this.state.articles.length + 1,
-      name: `Article ${this.state.articles.length + 1}`,
+      id: newArticleId,
     };
     this.setState(
       (prevState) => ({
-        articles: [...prevState.articles, newArticle],
+        selectedProducts: [...prevState.selectedProducts, newArticle],
       }),
-      () => {
-        // this.updatedTotalPrice();
-        // this.handleProductChange(selectedProducts);
-      }
+      this.updateTotalPrice
     );
   };
 
   handleDeleteArticle = (id) => {
-    this.setState(
-      (prevState) => {
-        const updatedArticles = prevState.articles.filter(
-          (article) => article.id !== id
-        );
-        const updatedSelectedProducts = prevState.selectedProducts.filter(
-          (product) => product.id !== id
-        );
-        return {
-          articles: updatedArticles,
-          selectedProducts: updatedSelectedProducts,
-        };
-      },
-      () => {
-        // this.updatedTotalPrice();
-        //this.handleProductChange(selectedProducts);
-      }
-    );
+    this.setState((prevState) => {
+      const updatedSelectedProducts = prevState.selectedProducts.filter(
+        (product) => product.id !== id
+      );
+      return {
+        selectedProducts: updatedSelectedProducts,
+      };
+    }, this.updateTotalPrice);
   };
 
-  updatedTotalPrice = () => {
-    const total = this.state.selectedProducts.reduce(
-      (sum, { price, discount }) => sum + price * (1 - discount),
-      0
-    );
+  updateTotalPrice = () => {
+    const total = this.state.selectedProducts.reduce((sum, product) => {
+      const selectedProduct = this.state.products.find(
+        (p) => p.id === product.id
+      );
+      if (selectedProduct) {
+        const { unitPrice, discount } = selectedProduct;
+        return sum + unitPrice * (1 - discount) * product.quantity;
+      }
+      return sum;
+    }, 0);
     this.setState({ totalPrice: total.toFixed(2) });
   };
 
   render() {
-    const { articles, products, totalPrice } = this.state;
+    const { products, selectedProducts, totalPrice } = this.state;
     return (
       <div className="container">
         <button onClick={this.handleAddArticle}>+ Add Article</button>
@@ -72,12 +67,13 @@ class AddArticle extends Component {
           <div>Discount</div>
           <div>Total Amount</div>
         </div>
-        {articles.map((article) => (
+        {selectedProducts.map((article) => (
           <ArticleTableRow
             key={article.id}
+            productId={article.id}
             products={products}
             selectedProducts={this.state.selectedProducts}
-            onSelectProduct={this.handleProductChange}
+            onSelectProductChange={this.handleProductChange}
             onDelete={() => this.handleDeleteArticle(article.id)}
           />
         ))}
@@ -90,9 +86,11 @@ class AddArticle extends Component {
         </div>
         <button
           onClick={() => {
-            if (this.state.articles.length > 0) {
+            if (this.state.selectedProducts.length > 0) {
               const lastArticleId =
-                this.state.articles[this.state.articles.length - 1].id;
+                this.state.selectedProducts[
+                  this.state.selectedProducts.length - 1
+                ].id;
               this.handleDeleteArticle(lastArticleId);
             }
           }}
