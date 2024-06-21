@@ -13,7 +13,9 @@ class ArticleTableRow extends Component {
   handleArticleChange = (event) => {
     const productId = parseInt(event.target.value, 10);
     const product = this.state.products.find((item) => item.id === productId);
-    this.setState({ selectedProduct: product }, this.updateParentState);
+    this.setState({ selectedProduct: product }, () => {
+      this.updateParentState(); // Move the state update callback here to ensure it happens after the state is set
+    });
   };
 
   handleQuantityChange = (event) => {
@@ -28,12 +30,10 @@ class ArticleTableRow extends Component {
         ...selectedProduct,
         quantity,
         discount: this.getDiscount(selectedProduct, quantity),
+        totalAmount: this.calculateTotal(),
       };
 
-      const updatedSelectedProducts = this.props.selectedProducts.map((item) =>
-        item.id === this.props.productId ? updatedProduct : item
-      );
-      this.props.onSelectProductChange(updatedSelectedProducts);
+      this.props.onSelectProductChange(updatedProduct);
     }
   };
 
@@ -57,6 +57,7 @@ class ArticleTableRow extends Component {
 
   render() {
     const { products, selectedProduct, quantity } = this.state;
+    const { selectedProducts } = this.props;
 
     return (
       <div className="table-row">
@@ -68,7 +69,11 @@ class ArticleTableRow extends Component {
           >
             <option value="">Select an article</option>
             {products.map((article) => (
-              <option key={article.id} value={article.id}>
+              <option
+                key={article.id}
+                value={article.id}
+                disabled={selectedProducts.some((p) => p.id === article.id)}
+              >
                 {article.name}
               </option>
             ))}

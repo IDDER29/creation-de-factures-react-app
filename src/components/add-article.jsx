@@ -4,40 +4,46 @@ import ArticleTableRow from "./article-table-row";
 class AddArticle extends Component {
   state = {
     products: this.props.products,
-    selectedProducts: this.props.selectedProducts,
+    selectedProducts: [],
     totalPrice: 0,
+    articleKeys: [], // Array to store unique keys for articles
   };
 
-  handleProductChange = (selectedProducts) => {
-    this.setState({ selectedProducts }, this.updateTotalPrice);
-    this.props.onSelectProduct(selectedProducts);
+  handleProductChange = (updatedProduct) => {
+    this.setState((prevState) => {
+      const selectedProducts = [...prevState.selectedProducts];
+      const existingIndex = selectedProducts.findIndex(
+        (product) => product.id === updatedProduct.id
+      );
+
+      if (existingIndex !== -1) {
+        selectedProducts[existingIndex] = updatedProduct;
+      } else {
+        selectedProducts.push(updatedProduct);
+      }
+
+      return { selectedProducts };
+    }, this.updateTotalPrice);
   };
 
   handleAddArticle = () => {
-    const newArticleId = this.state.selectedProducts.length
-      ? this.state.selectedProducts[this.state.selectedProducts.length - 1].id +
-        1
-      : 1;
-    const newArticle = {
-      id: newArticleId,
-    };
-    this.setState(
-      (prevState) => ({
-        selectedProducts: [...prevState.selectedProducts, newArticle],
-      }),
-      this.updateTotalPrice
-    );
+    const newKey = new Date().getTime(); // Unique key for the new article
+    this.setState((prevState) => ({
+      articleKeys: [...prevState.articleKeys, newKey],
+    }));
   };
 
-  handleDeleteArticle = (id) => {
+  handleDeleteArticle = (key, index) => {
     this.setState((prevState) => {
+      const updatedArticleKeys = prevState.articleKeys.filter((k) => k !== key);
       const updatedSelectedProducts = prevState.selectedProducts.filter(
-        (product) => product.id !== id
+        (product, i) => i !== index
       );
       return {
         selectedProducts: updatedSelectedProducts,
+        articleKeys: updatedArticleKeys,
       };
-    }, this.updateTotalPrice);
+    });
   };
 
   updateTotalPrice = () => {
@@ -46,7 +52,8 @@ class AddArticle extends Component {
         (p) => p.id === product.id
       );
       if (selectedProduct) {
-        const { unitPrice, discount } = selectedProduct;
+        const { unitPrice } = selectedProduct;
+        const discount = this.getDiscount(selectedProduct, product.quantity);
         return sum + unitPrice * (1 - discount) * product.quantity;
       }
       return sum;
@@ -54,8 +61,17 @@ class AddArticle extends Component {
     this.setState({ totalPrice: total.toFixed(2) });
   };
 
+  getDiscount = (product, quantity) => {
+    const discount = product.discounts.find((discount) =>
+      discount.maxQuantity
+        ? discount.minQuantity <= quantity && discount.maxQuantity >= quantity
+        : discount.minQuantity <= quantity
+    );
+    return discount ? discount.discount : 0;
+  };
+
   render() {
-    const { products, selectedProducts, totalPrice } = this.state;
+    const { products, selectedProducts, totalPrice, articleKeys } = this.state;
     return (
       <div className="container">
         <button onClick={this.handleAddArticle}>+ Add Article</button>
@@ -67,14 +83,13 @@ class AddArticle extends Component {
           <div>Discount</div>
           <div>Total Amount</div>
         </div>
-        {selectedProducts.map((article) => (
+        {articleKeys.map((key, index) => (
           <ArticleTableRow
-            key={article.id}
-            productId={article.id}
+            key={key}
             products={products}
-            selectedProducts={this.state.selectedProducts}
+            selectedProducts={selectedProducts}
             onSelectProductChange={this.handleProductChange}
-            onDelete={() => this.handleDeleteArticle(article.id)}
+            onDelete={() => this.handleDeleteArticle(key, index)}
           />
         ))}
         <div className="table-row">
@@ -86,12 +101,8 @@ class AddArticle extends Component {
         </div>
         <button
           onClick={() => {
-            if (this.state.selectedProducts.length > 0) {
-              const lastArticleId =
-                this.state.selectedProducts[
-                  this.state.selectedProducts.length - 1
-                ].id;
-              this.handleDeleteArticle(lastArticleId);
+            if (articleKeys.length > 0) {
+              this.handleDeleteArticle(articleKeys[articleKeys.length - 1]);
             }
           }}
         >
