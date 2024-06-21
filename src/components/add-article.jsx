@@ -22,6 +22,7 @@ class AddArticle extends Component {
         selectedProducts.push(updatedProduct);
       }
 
+      this.props.onSelectProduct(selectedProducts);
       return { selectedProducts };
     }, this.updateTotalPrice);
   };
@@ -39,11 +40,12 @@ class AddArticle extends Component {
       const updatedSelectedProducts = prevState.selectedProducts.filter(
         (product, i) => i !== index
       );
+      this.props.onSelectProduct(updatedSelectedProducts);
       return {
         selectedProducts: updatedSelectedProducts,
         articleKeys: updatedArticleKeys,
       };
-    });
+    }, this.updateTotalPrice);
   };
 
   updateTotalPrice = () => {
