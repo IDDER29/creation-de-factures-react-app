@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../add-new-client-modal.css";
-import mainData from "./main-data";
+import mainData from "./main-data"; // Correctly import mainData
 
 class AddNewClientModal extends Component {
   state = {
@@ -22,9 +22,9 @@ class AddNewClientModal extends Component {
 
   handleSubmitClientForm = (event) => {
     event.preventDefault();
-    const isExist = this.props.clientOptions.forEach((element) => {
-      return element.value == this.state.fullName;
-    });
+    const isExist = this.props.clientOptions.some(
+      (element) => element.value === this.state.fullName
+    );
     if (isExist) return alert("Client already exists");
 
     const {

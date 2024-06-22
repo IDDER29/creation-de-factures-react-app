@@ -14,7 +14,7 @@ class DetailsTable extends Component {
               <th>Quantity</th>
               <th>Price per Unit</th>
               <th>Discount</th>
-              <th>Price</th>
+              <th>Total Price</th>
             </tr>
           </thead>
           <tbody>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import AddNewClientModal from "./add-new-client";
-import mainData from "./main-data";
+import mainData from "./main-data"; // Correctly import mainData
 
 class SelectClient extends Component {
   state = {
@@ -16,9 +16,9 @@ class SelectClient extends Component {
     if (selectedOption === "Add New Client") {
       this.setState({ showModal: true });
     } else {
-      this.setState((prevState) => ({
+      this.setState({
         selectedClient: selectedOption,
-      }));
+      });
     }
   };
 
@@ -44,7 +44,7 @@ class SelectClient extends Component {
         >
           <option value="">Select Option</option>
           {clientOptions.map((option) => (
-            <option key={option.value} value={option.id}>
+            <option key={option.id} value={option.id}>
               {option.value}
             </option>
           ))}

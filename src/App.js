@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Form from './components/form';
 import AddArticle from "./components/add-article.jsx";
 import TableOfData from "./components/table-of-data.jsx";
-import mainData from "./components/main-data.jsx";
+import mainData, { saveMainData } from "./components/main-data.jsx";
 
 class App extends Component {
     constructor(props) {
@@ -22,8 +22,6 @@ class App extends Component {
 
     updateIsDisabled() {
         this.setState({ isDisabled: this.state.selectedProducts.length === 0 });
-        console.log(this.state.selectedProducts);
-        console.log("isDisabled new state:", this.state.isDisabled);
     }
 
     handleSelectProduct(selectedProducts) {
@@ -39,32 +37,44 @@ class App extends Component {
 
     handleSubmitFacture(event) {
         event.preventDefault();
-        console.log("Form submitted!");
-        console.log("selected products are:", this.state.selectedProducts);
         const [id, date, clientId] = [event.target.elements[0].value, event.target.elements[1].value, event.target.elements[2].value];
+
+        // Ensure mainData is up-to-date
+        const { mainData } = this.state;
+        const client = mainData.clients.find((client) => client.id == clientId);
+
+        if (!client) {
+            console.error("Client not found!");
+            return;
+        }
+
         const { totalHT, TVA, totalTTC } = this.calculateTotalPrice();
-        const clientName = mainData.clients.find((client) => client.id == clientId).fullName;
         const details = this.state.selectedProducts.map(product => ({
             productId: product.id,
             productName: product.name,
             quantity: product.quantity,
             unitPrice: product.unitPrice,
             discount: product.discount,
-            price: product.unitPrice,
+            price: product.unitPrice * product.quantity,
             totalHT: product.totalAmount,
         }));
+
         const invoice = {
             id: `INV${id}`,
-            clientName,
+            clientName: client.fullName,
             clientId,
             totalHT,
             TVA,
             totalTTC,
             details,
-        }
+        };
+
         mainData.invoices = [...mainData.invoices, invoice];
-        this.setState({ mainData });
-        console.log("mainData", mainData);
+        saveMainData(mainData);
+
+        this.setState({ mainData }, () => {
+            console.log("mainData updated", mainData);
+        });
 
         console.log("invoice object", invoice);
     }

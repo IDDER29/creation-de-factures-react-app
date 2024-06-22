@@ -1,11 +1,11 @@
 const STORAGE_KEY = "mainData";
 
-const loadMainData = () => {
+export const loadMainData = () => {
   const storedData = localStorage.getItem(STORAGE_KEY);
   return storedData ? JSON.parse(storedData) : undefined;
 };
 
-const saveMainData = (data) => {
+export const saveMainData = (data) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 };
 
@@ -40,7 +40,6 @@ if (!mainData) {
         },
       },
     ],
-
     products: [
       {
         id: 1,
@@ -79,7 +78,6 @@ if (!mainData) {
         ],
       },
     ],
-
     invoices: [
       {
         id: "INV001",
