@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "../styles/InvoiceDetails.css";
 
 class DetailsTable extends Component {
   invoiceDetails = this.props.invoiceDetails;

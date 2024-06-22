@@ -3,6 +3,8 @@ import Form from './components/form';
 import AddArticle from "./components/add-article.jsx";
 import TableOfData from "./components/table-of-data.jsx";
 import mainData, { saveMainData } from "./components/main-data.jsx";
+import './styles/App.css';
+
 
 class App extends Component {
     constructor(props) {
@@ -85,7 +87,7 @@ class App extends Component {
                 <Form isDisabled={this.state.isDisabled} handleSubmitFacture={this.handleSubmitFacture} />
                 <AddArticle products={this.state.products} selectedProducts={this.state.selectedProducts} onSelectProduct={this.handleSelectProduct} />
                 <TableOfData invoices={this.state.mainData.invoices} />
-                <button onClick={() => console.log(mainData)}>click</button>
+
             </>
         );
     }

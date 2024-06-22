@@ -5,7 +5,7 @@ class InputId extends Component {
 
   render() {
     return (
-      <>
+      <div>
         <label for="factureId">Facture ID:</label>
         <input
           type="number"
@@ -13,7 +13,7 @@ class InputId extends Component {
           placeholder="Facture ID"
           required
         ></input>
-      </>
+      </div>
     );
   }
 }

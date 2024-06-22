@@ -1,0 +1,41 @@
+/* ProductRow.css */
+
+.table-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.table-row div {
+  text-align: center;
+}
+
+.table-row .select,
+.table-row .input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  background-color: #f7fafc;
+}
+
+.table-row button {
+  background-color: #e53e3e;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.table-row button:hover {
+  background-color: #c53030;
+}
+
+.table-row button:disabled {
+  background-color: #e2e8f0;
+  cursor: not-allowed;
+}

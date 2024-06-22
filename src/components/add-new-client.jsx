@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "../add-new-client-modal.css";
 import mainData from "./main-data"; // Correctly import mainData
+import "../styles/AddNewClient.css";
+//import "../add-new-client-modal.css";
 
 class AddNewClientModal extends Component {
   state = {

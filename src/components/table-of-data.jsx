@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import DetailsTable from "./details-table";
-
+import "../styles/TableOfData.css";
 class TableOfData extends Component {
   state = {
     selectedIndex: null,

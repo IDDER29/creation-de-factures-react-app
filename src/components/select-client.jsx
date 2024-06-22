@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AddNewClientModal from "./add-new-client";
 import mainData from "./main-data"; // Correctly import mainData
+import "../styles/ClientSelection.css";
 
 class SelectClient extends Component {
   state = {

@@ -1,0 +1,32 @@
+/* ClientSelection.css */
+
+.client-selection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.client-selection select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.client-selection button {
+  background-color: #4299e1;
+  color: white;
+  font-weight: medium;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 20px;
+  display: inline-block;
+  width: auto;
+  text-align: center;
+}
+
+.client-selection button:hover {
+  background-color: #2b6cb0;
+}

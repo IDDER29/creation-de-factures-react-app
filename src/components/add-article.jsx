@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "../styles/AddArticle.css";
 import ArticleTableRow from "./article-table-row";
 
 class AddArticle extends Component {
@@ -103,22 +104,6 @@ class AddArticle extends Component {
           <div>---</div>
           <div>{totalPrice}</div>
         </div>
-        <button
-          onClick={() => {
-            if (articleKeys.length > 0) {
-              this.handleDeleteArticle(articleKeys[articleKeys.length - 1]);
-            }
-          }}
-        >
-          Delete last article
-        </button>
-        <button
-          onClick={() => {
-            console.log(this.state.selectedProducts);
-          }}
-        >
-          Show the selected articles
-        </button>
       </div>
     );
   }

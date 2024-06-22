@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "../styles/ProductRow.css";
 
 class ArticleTableRow extends Component {
   constructor(props) {

@@ -1,69 +1,62 @@
-.form-row {
+/* Global styles */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
   display: flex;
+  justify-content: center;
   align-items: center;
+  background-color: #f4f4f4;
 }
-
-.form-row label {
-  margin-right: 10px;
-}
-
-.form-row input[type="number"],
-.form-row input[type="date"],
-.form-row select,
-.form-row button {
-  margin-left: 5px;
-}
-
-/* styles.css */
 
 .container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
 .title {
   font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.table-header,
-.table-row {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-  padding-bottom: 8px;
-}
-
-.table-header {
-  border-bottom: 2px solid #e2e8f0;
-  padding-bottom: 16px;
-}
-
-.table-row {
-  padding-top: 8px;
-}
-
-.input,
-.select,
-.button {
-  padding: 8px;
-  border: 1px solid #cbd5e0;
-  border-radius: 4px;
-}
-
-.select {
-  background-color: #f7fafc;
-}
-
-.button {
+button {
   background-color: #4299e1;
   color: white;
   font-weight: medium;
+  border: none;
+  padding: 10px 20px;
   cursor: pointer;
+  border-radius: 4px;
+  text-align: center;
 }
 
-.button:hover {
+button:hover {
   background-color: #2b6cb0;
 }
+
+/* Specific styles */
+
+/* AddNewClient.css */
+
+/* App.css */
+
+/* ClientOptions.css */
+
+/* Form.css */
+
+/* InvoiceDetails.css */
+
+/* ProductRow.css */
+
+/* TableOfData.css */

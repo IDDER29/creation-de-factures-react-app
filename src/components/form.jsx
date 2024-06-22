@@ -3,6 +3,7 @@ import InputId from "./id-input";
 import InputDate from "./date-input";
 import SelectClient from "./select-client";
 
+import "../styles/Form.css";
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -26,9 +27,12 @@ class Form extends Component {
             <InputId />
             <InputDate />
             <SelectClient />
-            <button type="submit" disabled={this.state.isDisabled}>
-              Add Facture
-            </button>
+            <div>
+              {" "}
+              <button type="submit" disabled={this.state.isDisabled}>
+                Add Facture
+              </button>
+            </div>
           </div>
         </form>
       </>
