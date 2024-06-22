@@ -1,18 +1,33 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import AddNewClientModal from "./add-new-client";
 import mainData from "./main-data";
 
 class SelectClient extends Component {
   state = {
     showModal: false,
-    clientOptions: mainData.clients.map((client) => client.fullName),
+    clientOptions: mainData.clients.map((client) => {
+      return { value: client.fullName, id: client.id };
+    }),
+    selectedClient: "",
   };
 
   handleOptionChange = (event) => {
     const selectedOption = event.target.value;
     if (selectedOption === "Add New Client") {
       this.setState({ showModal: true });
+    } else {
+      this.setState((prevState) => ({
+        selectedClient: selectedOption,
+      }));
     }
+  };
+
+  updateClientOptions = (newClientName, id) => {
+    const newClient = { value: newClientName, id };
+    this.setState((prevState) => ({
+      clientOptions: [...prevState.clientOptions, newClient],
+      selectedClient: id,
+    }));
   };
 
   render() {
@@ -21,19 +36,25 @@ class SelectClient extends Component {
     return (
       <div>
         <label htmlFor="client-options">Client Options:</label>
-        <select id="client-options" onChange={this.handleOptionChange} required>
+        <select
+          id="client-options"
+          value={this.state.selectedClient}
+          onChange={this.handleOptionChange}
+          required
+        >
           <option value="">Select Option</option>
           {clientOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
+            <option key={option.value} value={option.id}>
+              {option.value}
             </option>
           ))}
           <option value="Add New Client">Add New Client</option>
         </select>
         {showModal && (
           <AddNewClientModal
-            clientOptions={this.state.clientOptions}
+            clientOptions={clientOptions}
             onClose={() => this.setState({ showModal: false })}
+            updateClientOptions={this.updateClientOptions}
           />
         )}
       </div>

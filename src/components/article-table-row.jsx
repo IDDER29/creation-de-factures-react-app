@@ -25,6 +25,7 @@ class ArticleTableRow extends Component {
 
   updateParentState = () => {
     const { selectedProduct, quantity } = this.state;
+    const productIndex = this.props.productIndex;
     if (selectedProduct) {
       const updatedProduct = {
         ...selectedProduct,
@@ -33,7 +34,7 @@ class ArticleTableRow extends Component {
         totalAmount: this.calculateTotal(),
       };
 
-      this.props.onSelectProductChange(updatedProduct);
+      this.props.onSelectProductChange(updatedProduct, productIndex);
     }
   };
 

@@ -9,11 +9,12 @@ class AddArticle extends Component {
     articleKeys: [], // Array to store unique keys for articles
   };
 
-  handleProductChange = (updatedProduct) => {
+  handleProductChange = (updatedProduct, productIndex) => {
     this.setState((prevState) => {
       const selectedProducts = [...prevState.selectedProducts];
       const existingIndex = selectedProducts.findIndex(
-        (product) => product.id === updatedProduct.id
+        (product, index) =>
+          product.id === updatedProduct.id || index === productIndex
       );
 
       if (existingIndex !== -1) {
@@ -88,6 +89,7 @@ class AddArticle extends Component {
         {articleKeys.map((key, index) => (
           <ArticleTableRow
             key={key}
+            productIndex={index}
             products={products}
             selectedProducts={selectedProducts}
             onSelectProductChange={this.handleProductChange}

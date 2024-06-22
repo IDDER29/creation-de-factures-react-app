@@ -8,6 +8,7 @@ class Form extends Component {
     super(props);
     this.state = {
       isDisabled: props.isDisabled,
+      handleSubmitFacture: props.handleSubmitFacture,
     };
   }
 
@@ -20,8 +21,8 @@ class Form extends Component {
   render() {
     return (
       <>
-        <form onSubmit={(e) => this.hundelSubmit(e)}>
-          <div class="form-row">
+        <form onSubmit={this.state.handleSubmitFacture}>
+          <div className="form-row">
             <InputId />
             <InputDate />
             <SelectClient />

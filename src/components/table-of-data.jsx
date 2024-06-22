@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import DetailsTable from "./details-table";
-import mainData from "./main-data";
 
 class TableOfData extends Component {
   state = {
-    invoices: mainData.invoices.map((invoice) => invoice),
+    selectedIndex: null,
   };
 
   showDetails = (index) => {
@@ -12,7 +11,8 @@ class TableOfData extends Component {
   };
 
   render() {
-    const { invoices, selectedIndex } = this.state;
+    const { invoices } = this.props;
+    const { selectedIndex } = this.state;
 
     return (
       <table>
@@ -37,7 +37,10 @@ class TableOfData extends Component {
               <td>
                 <button onClick={() => this.showDetails(index)}>Show</button>
                 {selectedIndex === index && (
-                  <DetailsTable invoiceDetails={invoice.details} />
+                  <DetailsTable
+                    invoiceDetails={invoice.details}
+                    totalTTC={invoice.totalHT}
+                  />
                 )}
               </td>
             </tr>
