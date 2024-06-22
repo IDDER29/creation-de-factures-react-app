@@ -5,10 +5,10 @@ class InputDate extends Component {
 
   render() {
     return (
-      <>
+      <div>
         <label for="date">Date:</label>
         <input type="date" id="date" required></input>
-      </>
+      </div>
     );
   }
 }

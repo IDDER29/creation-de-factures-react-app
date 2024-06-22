@@ -1,0 +1,48 @@
+/* Form.css */
+
+.form-container {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-row label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.form-row input,
+.form-row select {
+  padding: 8px;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  flex: 1;
+  margin-right: 10px;
+  background-color: #f7fafc;
+}
+
+.form-row button {
+  background-color: #4299e1;
+  color: white;
+  font-weight: medium;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.form-row button:hover {
+  background-color: #2b6cb0;
+}
+
+.form-row input[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

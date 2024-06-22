@@ -1,0 +1,80 @@
+/* InvoiceDetails.css */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #f8f8f8;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #f8f8f8;
+}
+
+p {
+  text-align: right;
+  font-weight: bold;
+}
+
+/* InvoiceDetails.css */
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-header div {
+  flex: 1;
+  text-align: center;
+}
+
+.table-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-row div:nth-child(2n),
+.table-row div:nth-child(3n),
+.table-row div:nth-child(4n) {
+  text-align: right;
+}
+
+/* TableOfData.css */
+
+.table-of-data {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table-of-data th,
+.table-of-data td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-of-data tr:hover {
+  background-color: #f8f8f8;
+}

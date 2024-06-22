@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import "../add-new-client-modal.css";
+import mainData from "./main-data"; // Correctly import mainData
+import "../styles/AddNewClient.css";
+//import "../add-new-client-modal.css";
 
 class AddNewClientModal extends Component {
   state = {
     fullName: "",
-    emailAddress: "",
+    email: "",
     phoneNumber: "",
-    address: "",
+    street: "",
     city: "",
     country: "",
     stateProvince: "",
@@ -21,26 +24,57 @@ class AddNewClientModal extends Component {
 
   handleSubmitClientForm = (event) => {
     event.preventDefault();
-    console.log(this.state);
-    const isExist = this.props.clientOptions.includes(this.state.fullName);
-    if (isExist) return alert("Client already exist");
-    this.props.clientOptions.push(this.state.fullName);
+    const isExist = this.props.clientOptions.some(
+      (element) => element.value === this.state.fullName
+    );
+    if (isExist) return alert("Client already exists");
+
+    const {
+      fullName,
+      email,
+      phoneNumber,
+      street,
+      city,
+      country,
+      stateProvince,
+      zipCode,
+    } = this.state;
+    const id = mainData.clients.length + 1;
+    const newClient = {
+      id,
+      fullName,
+      email,
+      phoneNumber,
+      address: {
+        street,
+        city,
+        country,
+        stateProvince,
+        zipCode,
+      },
+    };
+
+    mainData.clients = [...mainData.clients, newClient];
+    this.props.updateClientOptions(newClient.fullName, id);
+
     this.setState({
       fullName: "",
-      emailAddress: "",
+      email: "",
       phoneNumber: "",
-      address: "",
+      street: "",
       city: "",
       country: "",
       stateProvince: "",
       zipCode: "",
     });
+
+    this.props.onClose();
   };
 
   render() {
     return (
       <div className="modal">
-        <form onSubmit={(event) => this.handleSubmitClientForm(event)}>
+        <form>
           <div className="close-icon" onClick={this.props.onClose}>
             &times;
           </div>
@@ -57,12 +91,12 @@ class AddNewClientModal extends Component {
           </div>
           <div className="flex">
             <div className="modal-field">
-              <label htmlFor="emailAddress">Email Address:</label>
+              <label htmlFor="email">Email Address:</label>
               <input
                 type="email"
-                id="emailAddress"
-                name="emailAddress"
-                value={this.state.emailAddress}
+                id="email"
+                name="email"
+                value={this.state.email}
                 onChange={this.handleChange}
                 required
               />
@@ -82,12 +116,12 @@ class AddNewClientModal extends Component {
           </div>
           <div className="flex">
             <div className="modal-field">
-              <label htmlFor="address">Address:</label>
+              <label htmlFor="street">Street:</label>
               <input
                 type="text"
-                id="address"
-                name="address"
-                value={this.state.address}
+                id="street"
+                name="street"
+                value={this.state.street}
                 onChange={this.handleChange}
                 required
               />
@@ -143,7 +177,9 @@ class AddNewClientModal extends Component {
             </div>
           </div>
 
-          <button type="submit">Add Client</button>
+          <button type="button" onClick={this.handleSubmitClientForm}>
+            Add Client
+          </button>
         </form>
       </div>
     );
